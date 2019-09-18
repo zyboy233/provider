@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>运营商数据对比</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        .t_btn {
+            margin-top: 20px;
+        }
+
+        .t_btn li {
+            display: inline-block;
+            margin: 0 0px 20px 20px;
+        }
+
+        .t_btn button,
+        .t_a {
+            display: inline-block;
+            padding: 10px 5px;
+            width: 80px;
+            border-style: solid;
+            border-width: 0;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+            line-height: normal;
+            margin: 0 0 0.5em 0;
+            position: relative;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+            font-size: 1em;
+            background-color: #2C58A6;
+            border-color: #0263ff;
+            color: white;
+            box-shadow: 0 -2px 0 rgba(0, 0, 0, 0.2) inset !important;
+            margin-right: 0.5em;
+            border-radius: 4px;
+        }
+
+        .t_height {
+            line-height: 80px;
+            position: absolute;
+            right: 28px;
+            top: 0;
+        }
+
+
+        .tableWrap {
+            width: 600px;
+            box-sizing: border-box;
+        }
+
+        .table-thead {
+            width: auto;
+            font-size: 14px;
+            background-color: #FFF;
+            border: 1px solid #CFCFCF;
+            border-collapse: collapse;
+            border-spacing: 0px;
+        }
+
+        .table-thead tr th {
+            text-align: left;
+            padding-left: 10px;
+            border-right: 1px solid #CFCFCF;
+        }
+
+        .table-thead tr th:last-child, .table-thead tr th:nth-last-child(2) {
+            border-right: 0;
+        }
+
+        .table-thead tr, .table-tbody tr {
+            height: 35px;
+        }
+
+        .table-tbody {
+            width: auto;
+            font-size: 14px;
+            background-color: #FFF;
+            border-left: 1px solid #CFCFCF;
+            border-collapse: collapse;
+            border-spacing: 0px;
+        }
+
+        .table-tbody tr {
+            border-bottom: 1px solid #CFCFCF;
+        }
+
+        .table-tbody tr:last-child {
+            border-bottom: 0;
+        }
+
+        .table-tbody tr td {
+            padding-left: 10px;
+            padding-right: 10px;
+            border-right: 1px solid #CFCFCF;
+        }
+
+        .comTbody {
+            width: auto;
+            display: inline-block;
+            max-height: 100px;
+            overflow-y: scroll;
+            border-bottom: 1px solid #CFCFCF;
+        }
+
+        .table-wrap {
+            width: 750px;
+            outline: none;
+            position: relative;
+            font-size: 14px;
+            color: white;
+            border: 1px #e6e6e6 solid;
+            margin-bottom: 30px;
+        }
+
+        .table-head {
+            padding-right: 17px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-bottom: 1px #e6e6e6 solid;
+        }
+
+        .table-head-wrap {
+            width: 100%;
+            position: center;
+            overflow: hidden;
+        }
+
+        .grid {
+            margin: 0px;
+            table-layout: fixed;
+            width: 100%;
+            max-width: none;
+            border-spacing: 0px;
+            empty-cells: show;
+            border-width: 0px;
+            outline: 0px none;
+            border-collapse: collapse;
+        }
+
+        .grid tr th {
+            padding: 0.929em 0.5em;
+            vertical-align: bottom;
+            overflow: hidden;
+            border-left: 1px #e6e6e6 solid;
+            font-weight: normal;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            text-align: center;
+        }
+
+        .grid tr th:first-child {
+            border-left-width: 0;
+        }
+
+        .grid tr td {
+            border-left: 1px #e6e6e6 solid;
+            border-bottom: 1px #e6e6e6 solid;
+            padding: 0.929em 0.5em;
+            overflow: hidden;
+            line-height: 1.6em;
+            vertical-align: middle;
+            text-overflow: ellipsis;
+        }
+
+        .grid tr td:first-child {
+            border-left-width: 0px;
+        }
+
+        .grid tr:last-child td {
+            border-bottom: none;
+        }
+
+        .tab-link {
+            display: block;
+            min-height: 18px;
+            line-height: 18px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .table-content {
+            height: 400px;
+            white-space: normal;
+            position: relative;
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: scroll;
+            min-height: 0;
+        }
+
+        .data-grid {
+            width: 698px;
+            height: 201px;
+            position: relative;
+            overflow: hidden;
+            font-size: 14px;
+            color: #444;
+            box-sizing: border-box;
+            border-color: #95B8E7;
+            border-width: 1px;
+            border-style: solid;
+        }
+
+        .data-view {
+            width: 698px;
+            position: absolute;
+            overflow: hidden;
+            top: 0px;
+            right: 0px;
+        }
+
+        .grid-head {
+            width: 698px;
+            height: 30px;
+            border-color: #DDD;
+            overflow: hidden;
+            cursor: default;
+            border-width: 0px 0px 1px;
+            border-style: solid;
+            background-color: #efefef;
+        }
+
+        .grid-head-inner {
+            display: block;
+            float: left;
+        }
+
+        .data-table {
+            height: 30px;
+            border-collapse: separate;
+        }
+
+        .data-table-row {
+            height: 30px;
+        }
+
+        .data-table td {
+            border-color: #CCC;
+            border-width: 0px 1px 1px 0px;
+            border-style: dotted;
+            margin: 0px;
+            padding: 0px;
+            line-height: 1.65em;
+        }
+
+        .datagrid-cell {
+            margin: 0px;
+            padding: 0px 4px;
+            white-space: nowrap;
+            word-wrap: normal;
+            overflow: hidden;
+            height: 18px;
+            line-height: 18px;
+            font-size: 12px;
+        }
+
+        .cell-c1 {
+            width: 79px;
+            height: auto;
+        }
+
+        .cell-c2 {
+            width: 99px;
+            height: auto;
+        }
+
+        .cell-c3 {
+            width: 85px;
+            height: auto;
+            text-align: right;
+        }
+
+        .cell-c4 {
+            width: 100px;
+            height: auto;
+            text-align: right;
+        }
+
+        .cell-c5 {
+            width: 200px;
+            height: auto;
+        }
+
+        .grid-body {
+            width: 698px;
+            height: 168px;
+            overflow-x: hidden;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .datagrid-btable {
+            border-collapse: separate;
+        }
+
+        .datagrid-btable tr {
+            height: 25px;
+        }
+
+        .datagrid-btable tr td {
+            border-color: #CCC;
+            border-width: 0px 1px 1px 0px;
+            border-style: dotted;
+            margin: 0px;
+            padding: 0px;
+        }
+
+    </style>
+</head>
+
+<body>
+<!--header-->
+<div class="header">
+    <div class="bg_header">
+        <div class="header_nav fl t_title">
+            河南运营商手机套餐对比
+        </div>
+    </div>
+    <div class="header_nav fl">
+    </div>
+    <div class="header_myself fr t_height">
+        <a class="t_a" href="../index.html">返回 &nbsp;</a>
+    </div>
+</div>
+<!--main-->
+<div class="data_content">
+    <div class="data_main">
+        <div class="main_left fl">
+            <div class="left_1">
+                <ul class="t_btn">
+                    {% for type in types %}
+                        <li>
+                            <button onclick="detail('{{ type.1 }}')" style="height: 80px;width: 100px">{{ type.0 }}</button>
+                        </li>
+                    {% endfor %}
+
+                    <li>
+                        <button class="btn_me0" style="height: 80px;width: 100px">移动附加包</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="main_center fl">
+            <div class="center_text t_cos0">
+                <div class="main_title">
+                    移动手机附加包
+                </div>
+                <div style="Text-align:center;width:80%;margin: auto">
+                    <div style="margin-top: 10%">
+
+                        <div class="table-wrap">
+                            <div class="table-head">
+                                <div class="table-head-wrap">
+                                    <table class="grid">
+                                        <colgroup>
+                                            <col style="width:80px">
+                                            <col>
+                                            <col>
+                                            <col style="width:150px">
+                                        </colgroup>
+                                        <thead>
+                                        <tr>
+                                            <th><span class="tab-link">id</span></th>
+                                            <th><span class="tab-link">title</span></th>
+                                            <th><span class="tab-link">fee</span></th>
+                                            <th><span class="tab-link">summary</span></th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="table-content">
+                                <table class="grid">
+                                    <colgroup>
+                                        <col style="width:80px">
+                                        <col>
+                                        <col>
+                                        <col style="width:150px">
+                                    </colgroup>
+                                    <tbody id="atbody">
+                                    {% for pkg in pkgs %}
+                                          <tr>
+                                        <td>{{ pkg.id }}</td>
+                                        <td>
+                                            {{ pkg.goodsname }}
+                                        </td>
+                                        <td>
+                                            {{ pkg.price }}
+                                        </td>
+                                        <td>
+                                            {{ pkg.summary }}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<div style="text-align:center;">
+    <p style="color: white">ggghffhjfghjfhgfhjhfd</p>
+</div>
+</body>
+<script src="{% static 'js/jquery-2.2.1.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/common.js' %}"></script>
+{#<script src="http://api.map.baidu.com/api?v=2.0&ak=dApOtvB5E3x6byHpUGHbRF1fxctCBdjw"></script>#}
+<script src="{% static 'js/echarts.min.js' %}"></script>
+<script src="{% static 'js/dataTool.js' %}"></script>
+<script src="{% static 'js/base.js' %}"></script>
+</html>

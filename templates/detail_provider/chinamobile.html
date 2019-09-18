@@ -1,0 +1,88 @@
+{% extends 'detail_provider/base.html' %}
+
+{% block content %}
+    <!--header-->
+    <div class="header">
+        <div class="bg_header">
+            <div class="header_nav fl t_title">
+                河南移动
+            </div>
+        </div>
+        <div class="header_nav fl">
+        </div>
+        <div class="header_myself fr t_height">
+            <a class="t_a" href="../index.html">返回 &nbsp;</a>
+        </div>
+    </div>
+    <!--main-->
+    <div class="data_content">
+        <div class="data_main">
+            <div class="main_left fl">
+                <div class="left_1">
+                    <ul class="t_btn">
+                        {% for good in goods %}
+                            <li>
+                                <button class="btn_me{{ forloop.counter0 }}" onclick="detail({{ good.id }})" style="height: 80px;width: 100px">{{ good.name }}</button>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="main_center fl">
+                <div class="center_text t_cos0">
+                    <div class="main_title" id="title">
+                        全球通体验套餐-69元套餐
+                    </div>
+                    <div style="Text-align:center;width:80%;;margin: auto">
+                        <div style="margin-top: 150px">
+                            <ul id="details" class="list-group" style="background-color: #0c1e31">
+                                <li style="height: 50px"><textarea cols="80" rows="2">超过10G流量后国内限速+10G咪咕系定向流量</textarea>
+                                </li>
+                                <li style="height: 50px"><textarea cols="80" rows="2" >0.19元/分钟</textarea>
+                                </li>
+                                <li style="height: 50px"><textarea cols="80" rows="2"
+                                                                   style="text-align: center">180分钟</textarea></li>
+                                <li style="height: 50px"><textarea cols="80" rows="2" >10G咪咕系定向流量</textarea>
+                                </li>
+                                <li style="height: 50px"><textarea cols="80" rows="2"
+                                                                   style="text-align: center">国内免费</textarea></li>
+                                <li style="height: 50px"><textarea cols="80" rows="2" >通用流量超过限速阈值后国内限速不高于1Mbps，国内流量不收取，限速至128kbps</textarea>
+                                </li>
+                                <li style="height: 50px"><textarea cols="80" rows="2" >享200M宽带+高清电视业务0元/月</textarea>
+                                </li>
+                                <li style="height: 50px"><textarea cols="80" rows="4" >1、月套餐费489元，含国内流量达量限速（2/3/4G网络）和4000分钟国内主叫国内通话，600分钟国内主叫国际长途语音通话（仅指美国、德国等九个方向），赠送10G咪咕系定向流量，免费赠送来电显示，在国内接听电话免费；2、产品有效期一年，到期后以公告或短信通知为准，如无通知自动延期一年。3、超过套餐包含通话时长后：直接拨打国内电话0.19元/分钟。4、国内流量超过100G后，国内流量网速限速，限速后网速不高于1Mbps；当月全部流量使用达到200GB后，限速至128Kbps。5、短信费：发送国内短信0.1元/条；接收免费（不含梦网信息）。6、本套餐内流量不可结转。国内语音、流量不含港澳台地区资费。</textarea>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function detail(id) {
+        var ul_element = document.getElementById("details")
+        var title_element = document.getElementById('title')
+        $.ajax({
+            type: "GET",
+            url: "http://127.0.0.1:8000/detail/chinamobile/" + id,
+            dataType: 'json',
+            success: function (result) {
+                result = JSON.parse(result)
+                var html = '<li style="height: 50px"><textarea cols="80" rows="2">' + result['result'][1] +'</textarea></li>'
+                for (var i = 2;i<=8;i++){
+                    if (i ==8) {
+                        html += '<li style="height: 50px"><textarea cols="80" rows="4">' + result['result'][i] + '</textarea></li>'
+                    }
+                    else {
+                        html += '<li style="height: 50px"><textarea cols="80" rows="2">' + result['result'][i] + '</textarea></li>'
+                    }
+                }
+                title_element.innerText = result['result'][0]
+                ul_element.innerHTML = html
+            }
+        })
+    }
+    </script>
+{% endblock %}

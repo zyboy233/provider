@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>运营商数据对比</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        .t_btn {
+            margin-top: 20px;
+        }
+
+        .t_btn li {
+            display: inline-block;
+            margin: 0 0px 20px 20px;
+        }
+
+        .t_btn button,
+        .t_a {
+            display: inline-block;
+            padding: 10px 5px;
+            width: 80px;
+            border-style: solid;
+            border-width: 0;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+            line-height: normal;
+            margin: 0 0 0.5em 0;
+            position: relative;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+            font-size: 1em;
+            background-color: #2C58A6;
+            border-color: #0263ff;
+            color: white;
+            box-shadow: 0 -2px 0 rgba(0, 0, 0, 0.2) inset !important;
+            margin-right: 0.5em;
+            border-radius: 4px;
+        }
+
+        .t_height {
+            line-height: 80px;
+            position: absolute;
+            right: 28px;
+            top: 0;
+        }
+        #details li textarea {
+            text-align: center;
+            background-color: #0c1e31;color: white
+        }
+    </style>
+</head>
+<body>
+    {% block content %}
+    
+    {% endblock %}
+<div style="text-align:center;">
+        <p style="color: white">5组</p>
+    </div>
+</body>
+<script src="{% static 'js/jquery-2.2.1.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/common.js' %}"></script>
+{#<script src="http://api.map.baidu.com/api?v=2.0&ak=dApOtvB5E3x6byHpUGHbRF1fxctCBdjw"></script>#}
+<script src="{% static 'js/echarts.min.js' %}"></script>
+<script src="{% static 'js/dataTool.js' %}"></script>
+<script src="{% static 'js/base.js' %}"></script>
+{#<script src="../js/china.js"></script>#}
+{#<script src="../js/hunan.js"></script>#}
+{#<script src="../js/bmap.js"></script>#}
+<script src="{% static 'js/echarts-all.js' %}"></script>
+<script>
+    // $('.btn_me0').click(function () {
+    //     // $.ajax()
+    //     // $('.center_text').css('display', 'none');
+    //     // $('.t_cos0').css('display', 'block');
+    // };
+</script>
+</html>
+

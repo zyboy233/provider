@@ -1,0 +1,83 @@
+{% extends 'detail_provider/base.html' %}
+
+{% block content %}
+    {% load myFilter %}
+    <!--header-->
+    <div class="header">
+        <div class="bg_header">
+            <div class="header_nav fl t_title">
+                河南电信
+            </div>
+        </div>
+        <div class="header_nav fl">
+        </div>
+        <div class="header_myself fr t_height">
+            <a class="t_a" href="../index.html">返回 &nbsp;</a>
+        </div>
+    </div>
+    <!--main-->
+    <div class="data_content">
+        <div class="data_main">
+            <div class="main_left fl">
+                <div class="left_1">
+                    <ul class="t_btn">
+                        {% for good in goods %}
+                            <li>
+                                <button onclick="detail({{ good.id }})" class="btn_me{{ good.id }}"
+                                        style="height: 80px;width: 100px">{{ good.type|repls }}{{ good.fee }}元
+                                </button>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="main_center fl">
+                <div class="center_text t_cos0">
+                    <div class="main_title" id="title">
+                        2019版电信畅想套餐79元
+                    </div>
+                    <div style="Text-align:center;width:80%;;margin: auto">
+                        <div style="margin-top: 150px">
+                            <ul id="details" class="list-group" style="background-color: #0c1e31">
+                                <li style="height: 50px"><textarea cols="80" rows="2"
+                                                                   style="text-align: center"></textarea></li>
+                                <li style="height: 50px"><textarea cols="80" rows="2"
+                                                                   style="text-align: center">79</textarea></li>
+                                <li style="height: 50px"><textarea cols="80" rows="2"
+                                                                   style="text-align: center">10G</textarea></li>
+                                <li style="height: 50px"><textarea cols="80" rows="2"
+                                                                   style="text-align: center">200</textarea></li>
+                                <li style="height: 50px"><textarea cols="80" rows="2" style="text-align: center">赠送0张，最多可办理9张</textarea>
+                                </li>
+                                <li style="height: 50px"><textarea cols="80" rows="2" style="text-align: center">通用流量超过限速阈值后国内限速不高于1Mbps，国内流量不收取，限速至128kbps</textarea>
+                                </li>
+                                <li style="height: 50px"><textarea cols="80" rows="2" style="text-align: center">享200M宽带+高清电视业务0元/月</textarea>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function detail(id) {
+            var ul_element = document.getElementById("details")
+            var title_element = document.getElementById('title')
+            $.ajax({
+                type: "GET",
+                url: "http://127.0.0.1:8000/detail/chinatelecom/" + id,
+                dataType: 'json',
+                success: function (result) {
+                    result = JSON.parse(result)
+                    var html = '<li style="height: 50px"><textarea cols="80" rows="2" style="text-align: center">' + result['result'][1] + '</textarea></li>'
+                    for (var i = 2; i <= 6; i++) {
+                        html += '<li style="height: 50px"><textarea cols="80" rows="2" style="text-align: center">' + result['result'][i] + '</textarea></li>'
+                    }
+                    title_element.innerText = result['result'][0] + result['result'][2] + '元'
+                    ul_element.innerHTML = html
+                }
+            })
+        }
+    </script>
+{% endblock %}

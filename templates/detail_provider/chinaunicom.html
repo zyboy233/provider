@@ -1,0 +1,110 @@
+{% extends 'detail_provider/base.html' %}
+
+{% block content %}
+    <!--header-->
+    <div class="header">
+        <div class="bg_header">
+            <div class="header_nav fl t_title">
+                河南联通
+            </div>
+        </div>
+        <div class="header_nav fl">
+        </div>
+        <div class="header_myself fr t_height">
+            <a class="t_a" href="../index.html">返回 &nbsp;</a>
+        </div>
+    </div>
+    <!--main-->
+    <div class="data_content">
+        <div class="data_main">
+            <div class="main_left fl">
+                <div class="left_1">
+                    <ul class="t_btn">
+                        {% for good in goods %}
+                            <li>
+                                <button onclick="detail({{ good.id }})" class="btn_me" style="height: 80px;width: 100px">{{ good.title1 }}</button>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="main_center fl">
+                <div class="center_text t_cos0">
+                    <div class="main_title" id="title">
+                        4G副卡套餐
+                    </div>
+                    <div style="Text-align:center;width:80%;;margin: auto">
+                        <div style="margin-top: 65px">
+                            <ul id="details" class="list-group" style="background-color: #0c1e31">
+                                <li style="height: 50px"><textarea cols="80" rows="2"
+                                                                   >亲情副卡</textarea></li>
+                                <li style="height: 50px"><textarea cols="80" rows="2"
+                                                                   >6</textarea></li>
+                                <li style="height: 50px"><textarea cols="80" rows="2" style="text-align: center">共用主卡套餐</textarea>
+                                </li>
+                                <li style="height: 50px"><textarea cols="80" rows="2"
+                                                                   >共用主卡套餐</textarea></li>
+                                <li style="height: 50px"><textarea cols="80" rows="2"
+                                                                   >共用主卡套餐</textarea></li>
+                                <li style="height: 50px"><textarea cols="80" rows="2"
+                                                                   ></textarea>
+                                </li>
+                                <li style="height: 50px"><textarea cols="80" rows="2"
+                                                                   ></textarea>
+                                </li>
+                                <li style="height: 50px"><textarea cols="80" rows="2"
+                                                                   ></textarea>
+                                </li>
+                                <li style="height: 50px"><textarea cols="80" rows="2"
+                                                                   ></textarea>
+                                </li>
+                                <li style="height: 50px"><textarea cols="80" rows="2"
+                                                                   ></textarea>
+                                </li>
+                                <li style="height: 50px"><textarea cols="80" rows="2" ></br>
+                                    1、适用畅越冰激凌、畅爽冰激凌、冰神卡套餐；
+                                    </br>2、每档套餐可办理副卡1-4张不等，具体数量见页面说明；
+                                    </br>3、主卡与副卡成员号码之间在国内互拨语音免费；
+                                    </br>4、主卡与副卡的合计全部流量超过套餐所含高速流量后，按照主卡的限速策略对每张卡（包含主卡和各副卡）进行限速；
+                                    </br>5、主卡须处于正常使用状态下方可办理副卡。
+                                    </br>
+                                    6、本套餐资费有效期为一年（特殊约定的除外）。套餐到期后，双方如无异议，有效期逐年自动顺延。如无特殊约定，用户在有效期内或到期后可更换套餐。</textarea>
+                                </li>
+                                <li style="height: 50px"><textarea cols="80" rows="2"
+                                                                   >同主卡</textarea></li>
+                                <li style="height: 50px"><textarea cols="80" rows="2"
+                                                                   ></textarea>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function detail(id) {
+            var ul_element = document.getElementById("details")
+            var title_element = document.getElementById('title')
+            $.ajax({
+                type: "GET",
+                url: "http://127.0.0.1:8000/detail/chinaunicom/" + id,
+                dataType: 'json',
+                success: function (result) {
+                    result = JSON.parse(result)
+                    var html = '<li style="height: 50px"><textarea cols="80" rows="2">' + result['result'][1] + '</textarea></li>'
+                    for (var i = 2; i <= 11; i++) {
+                        if (i == 10){
+                            html += '<li style="height: 50px"><textarea cols="80" rows="4">' + result['result'][i] + '</textarea></li>'
+                        }else {
+                            html += '<li style="height: 50px"><textarea cols="80" rows="2">' + result['result'][i] + '</textarea></li>'
+                        }
+                    }
+                    title_element.innerText = result['result'][0]
+                    ul_element.innerHTML = html
+                }
+            })
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        {#第一行#}
+
+        <div class="row padding">
+            <div class="col-md-6 thumbnail">
+                <div id="bar1" style="height:400px;"></div>
+            </div>
+            <div class="col-md-6 thumbnail">
+                <div id="bar2" style="height:400px;"></div>
+            </div>
+        </div>
+
+        <!--第二行-->
+
+        <div class="row padding">
+            <div class="col-md-6 thumbnail">
+                <div id="bar3" style="height:400px;"></div>
+            </div>
+
+
+            <div class="col-md-6 thumbnail">
+                <div id="bar4" style="height:400px;"></div>
+            </div>
+        </div>
+
+        <!--第三行-->
+
+        <div class="row padding">
+            <div class="col-md-6 thumbnail">
+                <div id="bar5" style="height:400px;"></div>
+            </div>
+            <div class="col-md-6 thumbnail">
+                <div id="bar6" style="height:400px;"></div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var chartList = []
+        for (var i = 1; i <= 6; i++){
+            var chart = echarts.init(document.getElementById('bar' + i.toString()), 'white', {renderer: 'canvas'});
+            chartList[i] = chart
+        }
+        $(
+            function () {
+                fetchData(chartList);
+            }
+        );
+
+        function fetchData(chartList) {
+            $.ajax({
+                type: "GET",
+                url: "/home/api/echarts_phones",
+                dataType: 'json',
+                success: function (result) {
+                    for (var i = 1; i<=6;i++){
+                        chartList[i].setOption(result)
+                    }
+                }
+            });
+        }
+    </script>
+{% endblock %}
